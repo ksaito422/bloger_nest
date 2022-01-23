@@ -5,11 +5,15 @@
   "username": "admin",
   "password": "secret",
   "database": "default",
-  "entities": ["dist/entities/**/*.entity.js"],
-  "migrations": ["dist/database/migrations/**/*.js"],
-  "synchronize": true,
+  "entities": ["dist/entity/**/*{.js,.ts}"],
+  "migrations": ["dist/database/migration/**/*{.js,.ts}"],
+  "seeds": ["dist/database/seeder/*.js"],
+  "factories": ["dist/database/factory/*.js"],
+  "synchronize": false,
   "cli": {
     "entitiesDir": "src/entity",
-    "migrationsDir": "src/database/migration"
+    "migrationsDir": "src/database/migration",
+    "seedersDir": "src/database/seeder",
+    "factoriesDir": "src/database/factory"
   }
 }
