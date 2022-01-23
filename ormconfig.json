@@ -5,8 +5,8 @@
   "username": "admin",
   "password": "secret",
   "database": "default",
-  "entities": ["src/entity/*.ts"],
-  "migrations": ["src/database/migration/*.ts"],
+  "entities": ["dist/entities/**/*.entity.js"],
+  "migrations": ["dist/database/migrations/**/*.js"],
   "synchronize": true,
   "cli": {
     "entitiesDir": "src/entity",
