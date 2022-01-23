@@ -1,7 +1,7 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   OneToMany,
   DeleteDateColumn,
   CreateDateColumn,
@@ -11,9 +11,11 @@ import { Article } from 'src/entity/article';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  @OneToMany(() => Article, (article) => article.user_id)
+  @PrimaryColumn({ type: 'uuid' })
   id: string;
+
+  @OneToMany(() => Article, (article) => article.user_id)
+  article: Article;
 
   @Column()
   name: string;

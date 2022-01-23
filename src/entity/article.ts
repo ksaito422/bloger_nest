@@ -1,7 +1,7 @@
 import {
   Column,
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   ManyToOne,
   DeleteDateColumn,
   CreateDateColumn,
@@ -12,10 +12,10 @@ import { User } from 'src/entity/user';
 
 @Entity()
 export class Article {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({ type: 'uuid' })
   id: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   user_id: string;
 
   @ManyToOne(() => User, (user) => user.id)
