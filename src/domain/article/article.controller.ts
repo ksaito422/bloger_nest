@@ -6,18 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
+import { Article } from './interface/article.interface';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { ArticleFindAllInterceptor } from './interceptor/article.findAll.interceptor';
 
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  // 全記事取得
+  /**
+   * 全記事取得
+   */
   @Get()
-  findAll() {
+  @UseInterceptors(ArticleFindAllInterceptor)
+  findAll(): Promise<Article[]> {
     return this.articleService.findAll();
   }
 
