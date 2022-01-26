@@ -11,8 +11,10 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  createUser(uid: string, createAuthDto: CreateAuthDto) {
+    this.userRepository.save({ id: uid, name: createAuthDto.name });
+
+    return null;
   }
 
   findUser(uid: string) {

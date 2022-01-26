@@ -20,9 +20,15 @@ export class AuthController {
   /**
    * 新規登録
    */
-  @Post()
-  register(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  @Post('register')
+  async register(
+    @Body() createAuthDto: CreateAuthDto,
+    @Headers() headers: Headers,
+  ) {
+    const decodedToken = await verifyIdToken(headers);
+    this.authService.createUser(decodedToken.uid, createAuthDto);
+
+    return { id: decodedToken.uid, name: createAuthDto.name };
   }
 
   /**
