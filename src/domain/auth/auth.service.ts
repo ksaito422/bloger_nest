@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/user';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { deleteUser } from 'src/common/util/deleteUser';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,10 @@ export class AuthService {
     return this.userRepository.findOne(uid);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async delete(uid: string) {
+    await deleteUser(uid);
+    await this.userRepository.softDelete(uid);
+
+    return null;
   }
 }

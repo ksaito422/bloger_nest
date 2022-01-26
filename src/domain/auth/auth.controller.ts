@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Body,
-  Param,
   Delete,
   Headers,
   UseInterceptors,
@@ -45,8 +44,12 @@ export class AuthController {
   /**
    * 退会
    */
-  @Delete(':id')
-  unregister(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Delete('unregister')
+  @HttpCode(204)
+  async unregister(@Headers() headers: Headers) {
+    const decodedToken = await verifyIdToken(headers);
+    this.authService.delete(decodedToken.uid);
+
+    return null;
   }
 }
