@@ -9,7 +9,7 @@ export default class CreateUsers implements Seeder {
       .createQueryBuilder()
       .insert()
       .into(User)
-      .values([{ id: '4c823795-70ea-4737-b5ed-d107c7a1e17e', name: 'saito' }])
+      .values([{ id: '4865RDsJqzWtMR8qazrSW6k6i4T2', name: 'saito' }])
       .execute();
 
     // ランダムデータ生成
