@@ -31,6 +31,9 @@ export class ArticleController {
     return this.articleService.findAll();
   }
 
+  /**
+   * 記事投稿
+   */
   @Post(':userId')
   @HttpCode(201)
   create(
@@ -54,12 +57,20 @@ export class ArticleController {
     return this.articleService.findOne(articleId);
   }
 
+  /**
+   * 記事編集
+   */
   @Patch(':articleId')
+  @HttpCode(204)
   update(
+    @Headers() headers: Headers,
     @Param('articleId') articleId: string,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
-    return this.articleService.update(articleId, updateArticleDto);
+    verifyIdToken(headers);
+    this.articleService.update(articleId, updateArticleDto);
+
+    return null;
   }
 
   @Delete(':articleId')
