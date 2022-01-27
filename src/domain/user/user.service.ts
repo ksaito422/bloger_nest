@@ -13,4 +13,10 @@ export class UserService {
   fetchUser(userId: string) {
     return this.userRepository.findOneOrFail(userId);
   }
+
+  fetchUsersArticles(userId: string) {
+    return this.userRepository.findOne(userId, {
+      relations: ['articles'],
+    });
+  }
 }

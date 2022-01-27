@@ -8,6 +8,7 @@ import {
 import { UserService } from './user.service';
 import { verifyIdToken } from 'src/common/util/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
+import { fetchUsersArticlesInterceptor } from './interceptor/fetchUsersArticles.interceptor';
 
 @Controller('users')
 export class UserController {
@@ -21,5 +22,18 @@ export class UserController {
   fetchUser(@Param('userId') userId: string, @Headers() headers: Headers) {
     verifyIdToken(headers);
     return this.userService.fetchUser(userId);
+  }
+
+  /**
+   * 利用者投稿記事取得
+   */
+  @Get(':userId/articles')
+  @UseInterceptors(fetchUsersArticlesInterceptor)
+  fetchUsersArticles(
+    @Param('userId') userId: string,
+    @Headers() headers: Headers,
+  ) {
+    verifyIdToken(headers);
+    return this.userService.fetchUsersArticles(userId);
   }
 }

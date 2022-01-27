@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from 'src/domain/auth/interface/user.interface';
+import { User } from 'src/domain/user/interface/user.interface';
 
 export type Response<T> = {
   data: T;

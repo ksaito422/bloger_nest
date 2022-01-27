@@ -14,8 +14,8 @@ export class User {
   @PrimaryColumn({ type: 'uuid' })
   id: string;
 
-  @OneToMany(() => Article, (article) => article.user_id)
-  article: Article;
+  @OneToMany(() => Article, (articles) => articles.user)
+  articles: Article[];
 
   @Column()
   name: string;
@@ -23,7 +23,6 @@ export class User {
   @DeleteDateColumn({
     type: 'timestamp',
     precision: 0,
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   deletedAt: Date;
 

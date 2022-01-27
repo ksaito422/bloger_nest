@@ -18,8 +18,8 @@ export class Article {
   @Column({ type: 'uuid' })
   user_id: string;
 
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => User, (user) => user.articles)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   readonly user?: User;
 
   @Column()
@@ -31,7 +31,6 @@ export class Article {
   @DeleteDateColumn({
     type: 'timestamp',
     precision: 0,
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   deletedAt: Date;
 

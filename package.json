@@ -29,7 +29,7 @@
     "seed": "yarn run typeorm:seed seed",
     "schema:drop": "yarn run typeorm schema:drop",
     "cache:clear": "yarn run typeorm cache:clear",
-    "migrate": "rm -rf dist/database/migration/* && yarn run schema:drop && yarn run migrate:generate create_table && yarn run migrate:run",
+    "migrate": "rm -rf dist/database/migration/* && yarn run schema:drop && rm -rf src/database/migration/* && yarn run migrate:generate create_table && yarn build && yarn run migrate:run",
     "migrate:fresh": "yarn run schema:drop && yarn run migrate:run && yarn run seed",
     "entity:create": "yarn run typeorm entity:create -n"
   },
