@@ -21,7 +21,7 @@ export class ArticleService {
   }
 
   findOne(articleId: string) {
-    return `This action returns a #${articleId} article`;
+    return this.articleRepository.findOneOrFail(articleId);
   }
 
   update(articleId: string, updateArticleDto: UpdateArticleDto) {

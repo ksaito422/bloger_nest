@@ -3,3 +3,9 @@ export interface Article {
   title: string;
   content: string;
 }
+
+export interface ArticleFindOne extends Article {
+  user: {
+    id: string;
+  };
+}
