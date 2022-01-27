@@ -16,8 +16,12 @@ export class ArticleService {
     return this.articleRepository.find();
   }
 
-  create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+  create(createArticleDto: CreateArticleDto, userId: string) {
+    return this.articleRepository.save({
+      user_id: userId,
+      title: createArticleDto.title,
+      content: createArticleDto.content,
+    });
   }
 
   findOne(articleId: string) {

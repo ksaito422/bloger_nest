@@ -8,6 +8,7 @@ import {
   Delete,
   Headers,
   UseInterceptors,
+  HttpCode,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { verifyIdToken } from 'src/common/util/verifyIdToken';
@@ -30,9 +31,17 @@ export class ArticleController {
     return this.articleService.findAll();
   }
 
-  @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articleService.create(createArticleDto);
+  @Post(':userId')
+  @HttpCode(201)
+  create(
+    @Headers() headers: Headers,
+    @Param('userId') userId: string,
+    @Body() createArticleDto: CreateArticleDto,
+  ) {
+    verifyIdToken(headers);
+    this.articleService.create(createArticleDto, userId);
+
+    return null;
   }
 
   /**
