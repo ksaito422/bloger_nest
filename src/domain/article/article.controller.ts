@@ -73,8 +73,14 @@ export class ArticleController {
     return null;
   }
 
+  /**
+   * 記事削除
+   */
   @Delete(':articleId')
-  remove(@Param('articleId') articleId: string) {
+  @HttpCode(204)
+  remove(@Headers() headers: Headers, @Param('articleId') articleId: string) {
+    verifyIdToken(headers);
+
     return this.articleService.remove(articleId);
   }
 }

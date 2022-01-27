@@ -33,6 +33,6 @@ export class ArticleService {
   }
 
   remove(articleId: string) {
-    return `This action removes a #${articleId} article`;
+    return this.articleRepository.softDelete(articleId);
   }
 }
