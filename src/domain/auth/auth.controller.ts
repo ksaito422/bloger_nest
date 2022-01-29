@@ -6,6 +6,7 @@ import {
   Headers,
   UseInterceptors,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -34,7 +35,7 @@ export class AuthController {
    * ログイン
    */
   @Post('login')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   @UseInterceptors(UserFindInterceptor)
   async login(@Headers() headers: Headers) {
     const decodedToken = await verifyIdToken(headers);
@@ -45,7 +46,7 @@ export class AuthController {
    * 退会
    */
   @Delete('unregister')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async unregister(@Headers() headers: Headers) {
     const decodedToken = await verifyIdToken(headers);
     this.authService.delete(decodedToken.uid);

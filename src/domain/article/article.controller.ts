@@ -9,6 +9,7 @@ import {
   Headers,
   UseInterceptors,
   HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { verifyIdToken } from 'src/common/util/verifyIdToken';
@@ -35,7 +36,7 @@ export class ArticleController {
    * 記事投稿
    */
   @Post(':userId')
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   create(
     @Headers() headers: Headers,
     @Param('userId') userId: string,
@@ -61,7 +62,7 @@ export class ArticleController {
    * 記事編集
    */
   @Patch(':articleId')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   update(
     @Headers() headers: Headers,
     @Param('articleId') articleId: string,
@@ -77,7 +78,7 @@ export class ArticleController {
    * 記事削除
    */
   @Delete(':articleId')
-  @HttpCode(204)
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Headers() headers: Headers, @Param('articleId') articleId: string) {
     verifyIdToken(headers);
 
