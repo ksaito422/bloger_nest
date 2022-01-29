@@ -1,11 +1,12 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { ValidateError } from 'src/config/constant';
 
 export class CreateArticleDto {
   @IsNotEmpty()
   @IsString()
   title: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsString({ message: ValidateError.IS_STRING })
+  @IsNotEmpty({ message: ValidateError.NOT_EMPTY })
   content: string;
 }

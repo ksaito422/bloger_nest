@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { firebaseConfig } from 'src/config/firebaseConfig';
 import * as admin from 'firebase-admin';
 
@@ -9,7 +9,11 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       dismissDefaultMessages: true,
-      errorHttpStatusCode: 422,
+      // stopAtFirstError: true,
+      // exceptionFactory: (err) => {
+      //   console.log(err[0].property);
+      // },
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     }),
   );
 
