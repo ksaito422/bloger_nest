@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from 'src/entity/user';
-import { verifyIdToken } from 'src/common/util/verifyIdToken';
+import { verifyIdToken } from 'src/util/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 import { fetchUsersArticlesInterceptor } from './interceptor/fetchUsersArticles.interceptor';
 

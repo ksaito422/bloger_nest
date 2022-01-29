@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { verifyIdToken } from 'src/common/util/verifyIdToken';
+import { verifyIdToken } from 'src/util/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 
 @Controller('auth')

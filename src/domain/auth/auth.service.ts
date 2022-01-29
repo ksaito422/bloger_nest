@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/user';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { deleteUser } from 'src/common/util/deleteUser';
+import { deleteUser } from 'src/util/deleteUser';
 
 @Injectable()
 export class AuthService {
