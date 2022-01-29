@@ -7,8 +7,10 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export type Response<T> = {
-  data: T;
+type Response = {
+  id: string;
+  title: string;
+  content: string;
 };
 
 /**
@@ -16,15 +18,15 @@ export type Response<T> = {
  */
 @Injectable()
 export class ArticleFindAllInterceptor<T>
-  implements NestInterceptor<T, Response<T>>
+  implements NestInterceptor<T, Response[]>
 {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response<T>> {
+  ): Observable<Response[]> {
     return next.handle().pipe(
       map((res) => {
-        const response = res.map((article) => {
+        const response = res.map((article): Response => {
           return {
             id: article.id,
             title: article.title,

@@ -8,10 +8,11 @@ import {
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
+import { IArticle } from 'src/domain/article/interface/article.interface';
 import { User } from 'src/entity/user';
 
 @Entity()
-export class Article {
+export class Article implements IArticle {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -32,14 +33,14 @@ export class Article {
     type: 'timestamp',
     precision: 0,
   })
-  deletedAt: Date;
+  deleted_at: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
     precision: 0,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  readonly createdAt: Date;
+  readonly created_at: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
@@ -47,5 +48,5 @@ export class Article {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  readonly updatedAt: Date;
+  readonly updated_at: Date;
 }

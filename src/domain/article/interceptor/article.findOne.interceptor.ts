@@ -6,10 +6,14 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ArticleFindOne } from 'src/domain/article/interface/article.interface';
 
-export type Response<T> = {
-  data: T;
+type Response = {
+  id: string;
+  title: string;
+  content: string;
+  user: {
+    id: string;
+  };
 };
 
 /**
@@ -17,12 +21,12 @@ export type Response<T> = {
  */
 @Injectable()
 export class ArticleFindOneInterceptor<T>
-  implements NestInterceptor<Response<T>>
+  implements NestInterceptor<T, Response>
 {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<ArticleFindOne> {
+  ): Observable<Response> {
     return next.handle().pipe(
       map((res) => {
         const response = {

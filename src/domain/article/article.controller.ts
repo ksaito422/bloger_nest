@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { verifyIdToken } from 'src/common/util/verifyIdToken';
-import { Article } from './interface/article.interface';
+import { Article } from 'src/entity/article';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleFindAllInterceptor } from './interceptor/article.findAll.interceptor';
@@ -53,7 +53,10 @@ export class ArticleController {
    */
   @Get(':articleId')
   @UseInterceptors(ArticleFindOneInterceptor)
-  findOne(@Param('articleId') articleId: string, @Headers() headers: Headers) {
+  findOne(
+    @Param('articleId') articleId: string,
+    @Headers() headers: Headers,
+  ): Promise<Article> {
     verifyIdToken(headers);
     return this.articleService.findOne(articleId);
   }
