@@ -1,7 +1,7 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { getRepository } from 'typeorm';
-import { Article } from 'src/entity/article';
-import { User } from 'src/entity/user';
+import { Article } from 'src/entities/article';
+import { User } from 'src/entities/user';
 
 export default class CreateArticles implements Seeder {
   public async run(factory: Factory) {

@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
-import { firebaseConfig } from 'src/config/firebaseConfig';
+import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
 
 async function bootstrap() {

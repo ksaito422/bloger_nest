@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import { Article } from 'src/entity/article';
+import { Article } from 'src/entities/article';
 import * as Faker from 'faker/locale/ja';
 
 interface Context {

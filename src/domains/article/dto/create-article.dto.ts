@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ValidateError } from 'src/config/constant';
+import { ValidateError } from 'src/configs/constant';
 
 export class CreateArticleDto {
   @IsNotEmpty()

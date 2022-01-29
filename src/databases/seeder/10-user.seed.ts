@@ -1,5 +1,5 @@
 import { Factory, Seeder } from 'typeorm-seeding';
-import { User } from 'src/entity/user';
+import { User } from 'src/entities/user';
 import { Connection } from 'typeorm';
 
 export default class CreateUsers implements Seeder {

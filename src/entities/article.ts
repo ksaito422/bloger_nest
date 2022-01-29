@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { IArticle } from 'src/domain/article/interface/article.interface';
-import { User } from 'src/entity/user';
+import { IArticle } from 'src/domains/article/interface/article.interface';
+import { User } from 'src/entities/user';
 
 @Entity()
 export class Article implements IArticle {

@@ -6,8 +6,8 @@ import {
   Headers,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from 'src/entity/user';
-import { verifyIdToken } from 'src/util/verifyIdToken';
+import { User } from 'src/entities/user';
+import { verifyIdToken } from 'src/utils/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 import { fetchUsersArticlesInterceptor } from './interceptor/fetchUsersArticles.interceptor';
 

@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IUser } from 'src/domain/user/interface/user.interface';
-import { Article } from 'src/entity/article';
+import { IUser } from 'src/domains/user/interface/user.interface';
+import { Article } from 'src/entities/article';
 
 @Entity()
 export class User implements IUser {
