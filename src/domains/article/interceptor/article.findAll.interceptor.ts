@@ -6,25 +6,22 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-type Response = {
-  id: string;
-  title: string;
-  content: string;
-};
+import { ArticleType } from 'src/types/response.type';
 
 /**
  * レスポンスのフォーマット用クラス
  */
 @Injectable()
-export class ArticleFindAllInterceptor implements NestInterceptor<Response[]> {
+export class ArticleFindAllInterceptor
+  implements NestInterceptor<ArticleType[]>
+{
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response[]> {
+  ): Observable<ArticleType[]> {
     return next.handle().pipe(
       map((res) => {
-        const response = res.map((article): Response => {
+        const response = res.map((article): ArticleType => {
           return {
             id: article.id,
             title: article.title,

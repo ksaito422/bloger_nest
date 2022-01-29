@@ -6,21 +6,17 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-type Response = {
-  id: string;
-  name: string;
-};
+import { UserType } from 'src/types/response.type';
 
 /**
  * レスポンスのフォーマット用クラス
  */
 @Injectable()
-export class UserFindInterceptor implements NestInterceptor<Response> {
+export class UserFindInterceptor implements NestInterceptor<UserType> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response> {
+  ): Observable<UserType> {
     return next.handle().pipe(
       map((res) => {
         const response = {

@@ -6,25 +6,19 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-type Response = {
-  id: string;
-  title: string;
-  content: string;
-  user: {
-    id: string;
-  };
-};
+import { ArticleDetailType } from 'src/types/response.type';
 
 /**
  * レスポンスのフォーマット用クラス
  */
 @Injectable()
-export class ArticleFindOneInterceptor implements NestInterceptor<Response> {
+export class ArticleFindOneInterceptor
+  implements NestInterceptor<ArticleDetailType>
+{
   intercept(
     context: ExecutionContext,
     next: CallHandler,
-  ): Observable<Response> {
+  ): Observable<ArticleDetailType> {
     return next.handle().pipe(
       map((res) => {
         const response = {
