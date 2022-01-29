@@ -7,10 +7,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IUser } from 'src/domain/user/interface/user.interface';
 import { Article } from 'src/entity/article';
 
 @Entity()
-export class User {
+export class User implements IUser {
   @PrimaryColumn({ type: 'uuid' })
   id: string;
 
@@ -24,14 +25,14 @@ export class User {
     type: 'timestamp',
     precision: 0,
   })
-  deletedAt: Date;
+  deleted_at: Date;
 
   @CreateDateColumn({
     type: 'timestamp',
     precision: 0,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  readonly createdAt: Date;
+  readonly created_at: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
@@ -39,5 +40,5 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  readonly updatedAt: Date;
+  readonly updated_at: Date;
 }

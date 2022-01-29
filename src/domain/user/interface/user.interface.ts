@@ -1,10 +1,7 @@
-export interface User {
+export interface IUser {
   id: string;
   name: string;
-}
-
-export interface UserArticles {
-  id: string;
-  title: string;
-  content: string;
+  deleted_at: Date;
+  created_at: Date;
+  updated_at: Date;
 }

@@ -6,6 +6,7 @@ import {
   Headers,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { User } from 'src/entity/user';
 import { verifyIdToken } from 'src/common/util/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 import { fetchUsersArticlesInterceptor } from './interceptor/fetchUsersArticles.interceptor';
@@ -19,7 +20,10 @@ export class UserController {
    */
   @Get(':userId')
   @UseInterceptors(UserFindInterceptor)
-  fetchUser(@Param('userId') userId: string, @Headers() headers: Headers) {
+  fetchUser(
+    @Param('userId') userId: string,
+    @Headers() headers: Headers,
+  ): Promise<User> {
     verifyIdToken(headers);
     return this.userService.fetchUser(userId);
   }
@@ -32,7 +36,7 @@ export class UserController {
   fetchUsersArticles(
     @Param('userId') userId: string,
     @Headers() headers: Headers,
-  ) {
+  ): Promise<User> {
     verifyIdToken(headers);
     return this.userService.fetchUsersArticles(userId);
   }

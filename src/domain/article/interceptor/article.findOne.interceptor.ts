@@ -20,9 +20,7 @@ type Response = {
  * レスポンスのフォーマット用クラス
  */
 @Injectable()
-export class ArticleFindOneInterceptor<T>
-  implements NestInterceptor<T, Response>
-{
+export class ArticleFindOneInterceptor implements NestInterceptor<Response> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
