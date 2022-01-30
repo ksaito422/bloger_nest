@@ -3,14 +3,15 @@ import {
   Post,
   Body,
   Delete,
-  Headers,
+  UseGuards,
   UseInterceptors,
   HttpCode,
   HttpStatus,
+  Request,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { verifyIdToken } from 'src/utils/verifyIdToken';
 import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 
 @Controller('auth')
@@ -21,14 +22,11 @@ export class AuthController {
    * 新規登録
    */
   @Post('register')
-  async register(
-    @Body() createAuthDto: CreateAuthDto,
-    @Headers() headers: Headers,
-  ) {
-    const decodedToken = await verifyIdToken(headers);
-    this.authService.createUser(decodedToken.uid, createAuthDto);
+  @UseGuards(AuthGuard('firebase-jwt'))
+  async register(@Body() createAuthDto: CreateAuthDto, @Request() req) {
+    await this.authService.createUser(req.user.uid, createAuthDto);
 
-    return { id: decodedToken.uid, name: createAuthDto.name };
+    return { id: req.user.uid, name: createAuthDto.name };
   }
 
   /**
@@ -36,10 +34,10 @@ export class AuthController {
    */
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('firebase-jwt'))
   @UseInterceptors(UserFindInterceptor)
-  async login(@Headers() headers: Headers) {
-    const decodedToken = await verifyIdToken(headers);
-    return await this.authService.findUser(decodedToken.uid);
+  async login(@Request() req) {
+    return await this.authService.findUser(req.user.uid);
   }
 
   /**
@@ -47,9 +45,9 @@ export class AuthController {
    */
   @Delete('unregister')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async unregister(@Headers() headers: Headers) {
-    const decodedToken = await verifyIdToken(headers);
-    this.authService.delete(decodedToken.uid);
+  @UseGuards(AuthGuard('firebase-jwt'))
+  async unregister(@Request() req) {
+    await this.authService.delete(req.user.uid);
 
     return null;
   }

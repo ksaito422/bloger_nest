@@ -6,14 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  Headers,
   UseInterceptors,
   HttpCode,
   HttpStatus,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
-import { verifyIdToken } from 'src/utils/verifyIdToken';
 import { Article } from 'src/entities/article';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleFindAllInterceptor } from './interceptor/article.findAll.interceptor';
@@ -36,14 +37,14 @@ export class ArticleController {
    * 記事投稿
    */
   @Post(':userId')
+  @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.CREATED)
   create(
-    @Headers() headers: Headers,
+    @Request() req,
     @Param('userId') userId: string,
     @Body() createArticleDto: CreateArticleDto,
   ) {
-    verifyIdToken(headers);
-    this.articleService.create(createArticleDto, userId);
+    this.articleService.create(createArticleDto, req.user.uid);
 
     return null;
   }
@@ -52,12 +53,9 @@ export class ArticleController {
    * 記事詳細取得
    */
   @Get(':articleId')
+  @UseGuards(AuthGuard('firebase-jwt'))
   @UseInterceptors(ArticleFindOneInterceptor)
-  findOne(
-    @Param('articleId') articleId: string,
-    @Headers() headers: Headers,
-  ): Promise<Article> {
-    verifyIdToken(headers);
+  findOne(@Param('articleId') articleId: string): Promise<Article> {
     return this.articleService.findOne(articleId);
   }
 
@@ -65,13 +63,12 @@ export class ArticleController {
    * 記事編集
    */
   @Patch(':articleId')
+  @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   update(
-    @Headers() headers: Headers,
     @Param('articleId') articleId: string,
     @Body() updateArticleDto: UpdateArticleDto,
   ) {
-    verifyIdToken(headers);
     this.articleService.update(articleId, updateArticleDto);
 
     return null;
@@ -81,10 +78,9 @@ export class ArticleController {
    * 記事削除
    */
   @Delete(':articleId')
+  @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Headers() headers: Headers, @Param('articleId') articleId: string) {
-    verifyIdToken(headers);
-
+  remove(@Param('articleId') articleId: string) {
     return this.articleService.remove(articleId);
   }
 }
