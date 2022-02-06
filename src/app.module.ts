@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ArticleModule } from './domains/article/article.module';
 import { AuthModule } from './domains/auth/auth.module';
 import { UserModule } from './domains/user/user.module';
+import { MyLoggerModule } from './loggers/myLogger.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserModule } from './domains/user/user.module';
     ArticleModule,
     AuthModule,
     UserModule,
+    MyLoggerModule,
   ],
   controllers: [],
   providers: [],
