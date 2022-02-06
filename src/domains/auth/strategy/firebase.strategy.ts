@@ -14,7 +14,7 @@ export class FirebaseStrategy extends PassportStrategy(
     });
   }
 
-  async validate(token) {
+  async validate(token: string) {
     return admin
       .auth()
       .verifyIdToken(token, true)
