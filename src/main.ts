@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
+import { HttpExceptionFilter } from 'src/filters/httpException.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     }),
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   admin.initializeApp(firebaseConfig);
   await app.listen(8000);
