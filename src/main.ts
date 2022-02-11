@@ -5,6 +5,7 @@ import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
 import { HttpExceptionFilter } from 'src/filters/httpException.filter';
 import { MyLoggerService } from 'src/loggers/myLogger.service';
+import { UnprocessableEntityException } from 'src/filters/exception/unprocessableEntity.exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -14,9 +15,9 @@ async function bootstrap() {
     new ValidationPipe({
       dismissDefaultMessages: true,
       // stopAtFirstError: true,
-      // exceptionFactory: (err) => {
-      //   console.log(err[0].property);
-      // },
+      exceptionFactory: (err) => {
+        throw new UnprocessableEntityException(err);
+      },
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     }),
   );

@@ -6,6 +6,12 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { UnprocessableEntityException } from 'src/filters/exception/unprocessableEntity.exception';
+
+type validateError = {
+  property: string;
+  constraints: Record<string, string>;
+};
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -18,6 +24,29 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     this.logger.error(exception.stack);
+
+    // validationエラーの場合
+    if (exception instanceof UnprocessableEntityException) {
+      const exceptionResponse = exception.getResponse();
+
+      const errors = Object(exceptionResponse).map(
+        (value: validateError): validateError => {
+          return {
+            property: value.property,
+            constraints: value.constraints,
+          };
+        },
+      );
+
+      return response.status(status).json({
+        statusCode: status,
+        timestamp: new Date().toLocaleString('ja-JP', {
+          timeZone: 'Asia/Tokyo',
+        }),
+        path: request.url,
+        validateErrors: errors,
+      });
+    }
 
     response.status(status).json({
       statusCode: status,
