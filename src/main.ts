@@ -4,6 +4,7 @@ import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
 import { HttpExceptionFilter } from 'src/filters/httpException.filter';
+import { DbExceptionFilter } from 'src/filters/dbException.filter';
 import { MyLoggerService } from 'src/loggers/myLogger.service';
 import { UnprocessableEntityException } from 'src/filters/exception/unprocessableEntity.exception';
 
@@ -21,7 +22,7 @@ async function bootstrap() {
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     }),
   );
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(), new DbExceptionFilter());
   app.useLogger(app.get(MyLoggerService));
 
   admin.initializeApp(firebaseConfig);

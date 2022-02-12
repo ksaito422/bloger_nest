@@ -1,22 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { Logger, QueryRunner } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { Logger as TypeormLogger, QueryRunner } from 'typeorm';
 
 @Injectable()
-export class TypeormLoggerService implements Logger {
-  logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner): any {
-    console.log(query);
-  }
+export class TypeormLoggerService implements TypeormLogger {
+  private readonly logger = new Logger();
 
   log(
     level: 'log' | 'info' | 'warn',
     message: any,
     queryRunner?: QueryRunner,
-  ): any {
+  ): void {
     console.log(message);
   }
 
-  logMigration(message: string, queryRunner?: QueryRunner): any {
-    console.log(message);
+  logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner): void {
+    this.logger.debug(`[SQL] ${query}`);
+  }
+
+  logMigration(message: string, queryRunner?: QueryRunner): void {
+    return;
   }
 
   logQueryError(
@@ -24,8 +26,9 @@ export class TypeormLoggerService implements Logger {
     query: string,
     parameters?: any[],
     queryRunner?: QueryRunner,
-  ): any {
-    console.log(query);
+  ): void {
+    this.logger.error(query);
+    console.log(error);
   }
 
   logQuerySlow(
@@ -33,11 +36,11 @@ export class TypeormLoggerService implements Logger {
     query: string,
     parameters?: any[],
     queryRunner?: QueryRunner,
-  ): any {
+  ): void {
     console.log(query);
   }
 
-  logSchemaBuild(message: string, queryRunner?: QueryRunner): any {
-    console.log(message);
+  logSchemaBuild(message: string, queryRunner?: QueryRunner): void {
+    return;
   }
 }
