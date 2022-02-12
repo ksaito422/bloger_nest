@@ -13,6 +13,8 @@ type validateError = {
   constraints: Record<string, string>;
 };
 
+type validateErrorKeys = 'property' | 'constraints';
+
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger();
@@ -29,14 +31,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (exception instanceof UnprocessableEntityException) {
       const exceptionResponse = exception.getResponse();
 
-      const errors = Object(exceptionResponse).map(
-        (value: validateError): validateError => {
-          return {
-            property: value.property,
-            constraints: value.constraints,
-          };
-        },
-      );
+      const errors: Record<validateErrorKeys, string> = Object(
+        exceptionResponse,
+      ).map((value: validateError): validateError => {
+        return {
+          property: value.property,
+          constraints: value.constraints,
+        };
+      });
 
       return response.status(status).json({
         statusCode: status,
