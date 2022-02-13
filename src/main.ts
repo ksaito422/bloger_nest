@@ -16,6 +16,10 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '1',
   });
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,POST,PUT,PATCH,DELETE,HEAD',
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       dismissDefaultMessages: true,
