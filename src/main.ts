@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe, VersioningType } from '@nestjs/common';
 import { firebaseConfig } from 'src/configs/firebaseConfig';
@@ -34,6 +35,17 @@ async function bootstrap() {
   app.useLogger(app.get(MyLoggerService));
 
   admin.initializeApp(firebaseConfig);
+
+  const config = new DocumentBuilder()
+    .setTitle('Zenn')
+    .setDescription('The zenn API description')
+    .setVersion('1.0')
+    .addTag('zenn')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(8000);
 }
 bootstrap();
