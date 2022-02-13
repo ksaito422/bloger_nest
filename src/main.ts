@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpStatus, ValidationPipe } from '@nestjs/common';
+import { HttpStatus, ValidationPipe, VersioningType } from '@nestjs/common';
 import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
 import { HttpExceptionFilter } from 'src/filters/httpException.filter';
@@ -11,6 +11,10 @@ import { UnprocessableEntityException } from 'src/filters/exception/unprocessabl
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // logger: false,
+  });
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
   });
   app.useGlobalPipes(
     new ValidationPipe({
