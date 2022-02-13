@@ -32,6 +32,7 @@ class TypeOrmOptions implements TypeOrmOptionsFactory {
         migrationsDir: 'src/databases/migration',
       },
       logger: this.logger,
+      logging: true,
     };
   }
 }

@@ -17,18 +17,17 @@ export class TypeormLoggerService implements TypeormLogger {
     this.logger.debug(`[SQL] ${query}`);
   }
 
-  logMigration(message: string, queryRunner?: QueryRunner): void {
-    return;
-  }
-
   logQueryError(
     error: string | Error,
     query: string,
     parameters?: any[],
     queryRunner?: QueryRunner,
   ): void {
-    this.logger.error(query);
-    console.log(error);
+    this.logger.error(`[SQL] ${query}`);
+  }
+
+  logMigration(message: string, queryRunner?: QueryRunner): void {
+    return;
   }
 
   logQuerySlow(

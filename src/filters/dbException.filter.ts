@@ -20,13 +20,11 @@ export class DbExceptionFilter implements ExceptionFilter {
 
     this.logger.error(exception.stack);
 
-    switch (exception.constructor) {
-      case QueryFailedError:
-        status = HttpStatus.INTERNAL_SERVER_ERROR;
-        break;
-      case EntityNotFoundError:
-        status = HttpStatus.NOT_FOUND;
-        break;
+    if (exception instanceof QueryFailedError) {
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      this.logger.error(`[SQL] ${exception.query}`);
+    } else if (exception instanceof EntityNotFoundError) {
+      status = HttpStatus.NOT_FOUND;
     }
 
     response.status(status).json({
