@@ -13,9 +13,9 @@ import { UserFindInterceptor } from './interceptor/user.find.interceptor';
 import { AuthGuard } from '@nestjs/passport';
 import { fetchUsersArticlesInterceptor } from './interceptor/fetchUsersArticles.interceptor';
 import {
-  UserFetchUserRes,
-  UserFetchUsersArticlesRes,
-} from 'src/swagger/user.swagger';
+  UserFetchUserResponse,
+  UserFetchUsersArticlesResponse,
+} from 'src/domains/user/dto/response-user.dto';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -27,7 +27,7 @@ export class UserController {
    * 利用者情報取得
    */
   @Get(':userId')
-  @ApiResponse({ status: 200, description: 'OK', type: UserFetchUserRes })
+  @ApiResponse({ status: 200, description: 'OK', type: UserFetchUserResponse })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(AuthGuard('firebase-jwt'))
   @UseInterceptors(UserFindInterceptor)
@@ -42,7 +42,7 @@ export class UserController {
   @ApiResponse({
     status: 200,
     description: 'OK',
-    type: [UserFetchUsersArticlesRes],
+    type: [UserFetchUsersArticlesResponse],
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(AuthGuard('firebase-jwt'))

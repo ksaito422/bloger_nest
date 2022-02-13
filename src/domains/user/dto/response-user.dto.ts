@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserFetchUserRes {
+export class UserFetchUserResponse {
   @ApiProperty()
   id: string;
 
@@ -8,13 +8,10 @@ export class UserFetchUserRes {
   name: string;
 }
 
-export class UserFetchUsersArticlesRes {
+export class UserFetchUsersArticlesResponse {
   @ApiProperty()
   id: string;
 
   @ApiProperty()
   title: string;
-
-  @ApiProperty()
-  content: string;
 }

@@ -21,9 +21,9 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleFindAllInterceptor } from './interceptor/article.findAll.interceptor';
 import { ArticleFindOneInterceptor } from './interceptor/article.findOne.interceptor';
 import {
-  ArticleFindAllRes,
-  ArticleFindOneRes,
-} from 'src/swagger/article.swagger';
+  ArticleFindAllResponse,
+  ArticleFindOneResponse,
+} from 'src/domains/article/dto/response-article.dto';
 
 @ApiTags('articles')
 @Controller('articles')
@@ -37,7 +37,7 @@ export class ArticleController {
   @ApiResponse({
     status: 200,
     description: 'OK',
-    type: [ArticleFindAllRes],
+    type: [ArticleFindAllResponse],
   })
   @UseInterceptors(ArticleFindAllInterceptor)
   findAll(): Promise<Article[]> {
@@ -68,7 +68,7 @@ export class ArticleController {
    * 記事詳細取得
    */
   @Get(':articleId')
-  @ApiResponse({ status: 200, description: 'OK', type: ArticleFindOneRes })
+  @ApiResponse({ status: 200, description: 'OK', type: ArticleFindOneResponse })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard('firebase-jwt'))

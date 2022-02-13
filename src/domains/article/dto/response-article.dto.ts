@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ArticleFindAllRes {
+export class ArticleFindAllResponse {
   @ApiProperty()
   id: string;
 
@@ -11,7 +11,7 @@ export class ArticleFindAllRes {
   content: string;
 }
 
-export class ArticleFindOneRes {
+export class ArticleFindOneResponse {
   @ApiProperty()
   id: string;
 
