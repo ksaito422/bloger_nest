@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe, VersioningType } from '@nestjs/common';
 import { firebaseConfig } from 'src/configs/firebaseConfig';
 import * as admin from 'firebase-admin';
+import * as fs from 'fs';
+import { dump } from 'js-yaml';
 import { HttpExceptionFilter } from 'src/filters/httpException.filter';
 import { DbExceptionFilter } from 'src/filters/dbException.filter';
 import { MyLoggerService } from 'src/loggers/myLogger.service';
@@ -44,6 +46,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  fs.writeFileSync('./swagger-spec.yaml', dump(document, {}));
   SwaggerModule.setup('api', app, document);
 
   await app.listen(8000);

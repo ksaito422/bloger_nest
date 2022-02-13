@@ -1,0 +1,281 @@
+openapi: 3.0.0
+paths:
+  /v1/articles:
+    get:
+      operationId: ArticleController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArticleFindAllRes'
+      tags: &ref_0
+        - articles
+  /v1/articles/{userId}:
+    post:
+      operationId: ArticleController_create
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArticleDto'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity
+      tags: *ref_0
+      security:
+        - bearer: []
+  /v1/articles/{articleId}:
+    get:
+      operationId: ArticleController_findOne
+      parameters:
+        - name: articleId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArticleFindOneRes'
+        '401':
+          description: Unauthorized
+      tags: *ref_0
+      security:
+        - bearer: []
+    patch:
+      operationId: ArticleController_update
+      parameters:
+        - name: articleId
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArticleDto'
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity
+      tags: *ref_0
+      security:
+        - bearer: []
+    delete:
+      operationId: ArticleController_remove
+      parameters:
+        - name: articleId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+      tags: *ref_0
+      security:
+        - bearer: []
+  /v1/auth/register:
+    post:
+      operationId: AuthController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthDto'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '422':
+          description: Unprocessable Entity
+      tags: &ref_1
+        - auth
+      security: &ref_2
+        - bearer: []
+  /v1/auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+      tags: *ref_1
+      security: *ref_2
+  /v1/auth/unregister:
+    delete:
+      operationId: AuthController_unregister
+      parameters: []
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+      tags: *ref_1
+      security: *ref_2
+  /v1/users/{userId}:
+    get:
+      operationId: UserController_fetchUser
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFetchUserRes'
+        '401':
+          description: Unauthorized
+      tags: &ref_3
+        - users
+      security: &ref_4
+        - bearer: []
+  /v1/users/{userId}/articles:
+    get:
+      operationId: UserController_fetchUsersArticles
+      parameters:
+        - name: userId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserFetchUsersArticlesRes'
+        '401':
+          description: Unauthorized
+      tags: *ref_3
+      security: *ref_4
+info:
+  title: Zenn
+  description: The zenn API description
+  version: '1.0'
+  contact: {}
+tags:
+  - name: zenn
+    description: ''
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    ArticleFindAllRes:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+      required:
+        - id
+        - title
+        - content
+    CreateArticleDto:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+      required:
+        - title
+        - content
+    ArticleFindOneRes:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+      required:
+        - id
+        - title
+        - content
+        - user
+    UpdateArticleDto:
+      type: object
+      properties: {}
+    CreateAuthDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    UserFetchUserRes:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+        - id
+        - name
+    UserFetchUsersArticlesRes:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+      required:
+        - id
+        - title
+        - content
