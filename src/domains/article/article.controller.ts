@@ -12,6 +12,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { Article } from 'src/entities/article';
 import { AuthGuard } from '@nestjs/passport';
@@ -19,7 +20,12 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleFindAllInterceptor } from './interceptor/article.findAll.interceptor';
 import { ArticleFindOneInterceptor } from './interceptor/article.findOne.interceptor';
+import {
+  ArticleFindAllRes,
+  ArticleFindOneRes,
+} from 'src/swagger/article.swagger';
 
+@ApiTags('articles')
 @Controller('articles')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
@@ -28,6 +34,11 @@ export class ArticleController {
    * 全記事取得
    */
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'OK',
+    type: [ArticleFindAllRes],
+  })
   @UseInterceptors(ArticleFindAllInterceptor)
   findAll(): Promise<Article[]> {
     return this.articleService.findAll();
@@ -37,6 +48,10 @@ export class ArticleController {
    * 記事投稿
    */
   @Post(':userId')
+  @ApiResponse({ status: 201, description: 'Created' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 422, description: 'Unprocessable Entity' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.CREATED)
   create(
@@ -53,6 +68,9 @@ export class ArticleController {
    * 記事詳細取得
    */
   @Get(':articleId')
+  @ApiResponse({ status: 200, description: 'OK', type: ArticleFindOneRes })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('firebase-jwt'))
   @UseInterceptors(ArticleFindOneInterceptor)
   findOne(@Param('articleId') articleId: string): Promise<Article> {
@@ -63,6 +81,10 @@ export class ArticleController {
    * 記事編集
    */
   @Patch(':articleId')
+  @ApiResponse({ status: 204, description: 'No Content' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 422, description: 'Unprocessable Entity' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   update(
@@ -78,6 +100,9 @@ export class ArticleController {
    * 記事削除
    */
   @Delete(':articleId')
+  @ApiResponse({ status: 204, description: 'No Content' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard('firebase-jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('articleId') articleId: string) {
