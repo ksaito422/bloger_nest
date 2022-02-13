@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ArticleType, ArticleDetailType } from 'src/types/response.type';
 
-export class ArticleFindAllResponse {
+export class ArticleFindAllResponse implements ArticleType {
   @ApiProperty()
   id: string;
 
@@ -11,7 +12,7 @@ export class ArticleFindAllResponse {
   content: string;
 }
 
-export class ArticleFindOneResponse {
+export class ArticleFindOneResponse implements ArticleDetailType {
   @ApiProperty()
   id: string;
 
@@ -29,5 +30,5 @@ export class ArticleFindOneResponse {
       },
     },
   })
-  user: string;
+  user: { id: string };
 }
